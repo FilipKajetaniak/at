@@ -1,0 +1,30 @@
+name: Pistis
+
+on:
+  repository_dispatch:
+    types: [manual]
+
+env:
+  IVY_API_KEY: ${{secrets.IVY_API_KEY}}
+  IVY_API_URL: ${{secrets.IVY_API_URL}}
+  MARKETS: ${{github.event.client_payload.markets}}
+  NUMBER_OF_BANKS: ${{github.event.client_payload.numberOfBanks}}
+  MERCHANT_IBAN: ${{github.event.client_payload.merchantIban}}
+  MERCHANG_NAME: ${{github.event.client_payload.merchantName}}
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Cache node_modules
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+      - run: npm ci
+      - name: Run Pistis
+        run: npm start --markets=${{MARKETS}} --numberOfBanks=${{NUMBER_OF_BANKS}} --merchantIban=${{MERCHANT_IBAN}} --merchantName=${{MERCHANG_NAME}}
