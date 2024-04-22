@@ -15,12 +15,5 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      # Cache node_modules
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: "npm"
-      - run: npm ci
       - name: Run Pistis
         run: npm start --markets=${{github.event.client_payload.markets}} --numberOfBanks=${{github.event.client_payload.numberOfBanks}} --merchantIban=${{github.event.client_payload.merchantIban}} --merchantName=${{github.event.client_payload.merchantName}}
