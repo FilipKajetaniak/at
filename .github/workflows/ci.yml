@@ -2,7 +2,7 @@ name: Pistis
 
 on:
   repository_dispatch:
-    types: [manual]
+    types: [pistis_manual]
 
 env:
   IVY_API_KEY: ${{secrets.IVY_API_KEY}}
